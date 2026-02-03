@@ -432,6 +432,35 @@
             z-index: 2000;
         }
     </style>
+    <style>
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .block-hint {
+            color: #d81b60;
+            font-weight: 600;
+            margin-top: 15px;
+            height: 24px;
+            transition: opacity 0.3s ease;
+        }
+    </style>
 </head>
 
 <body>
@@ -446,7 +475,7 @@
                 2. Change the src below to your filename: <source src="music.mp3" type="audio/mpeg">
                 Alternatively, paste a direct link to the music sample in the src.
             -->
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            <source src="夜明けの風.mp3" type="audio/mpeg">
         </audio>
     </div>
 
@@ -457,19 +486,8 @@
     <section class="hero content-section visible" id="landing-section">
         <h1>Hey love 💖</h1>
         <p>I made this just for you, because you're special.</p>
-        <button class="btn-main" id="open-heart">Open my heart 💌</button>
-    </section>
 
-    <!-- Section 2: Main Navigation Menu (New) -->
-    <section class="content-section" id="menu-section">
-        <h2>Choose a surprise... ✨</h2>
-        <div class="reasons-grid" style="margin-top: 40px;">
-            <div class="reason-card" onclick="showSection('notes-section')">💌 Notes</div>
-            <div class="reason-card" onclick="showSection('gallery-section')">📸 Gallery</div>
-            <div class="reason-card" onclick="showSection('letter-section')">📜 Letter</div>
-            <div class="reason-card" onclick="showSection('proposal-section')">💘 Surprise</div>
-        </div>
-        <div class="countdown-container" id="timer-box" style="display: block; margin-top: 50px;">
+        <div class="countdown-container" id="timer-box" style="display: block; margin: 20px 0;">
             <p>Counting every second until our moment ❤️</p>
             <div class="countdown-timer">
                 <div class="timer-part"><span class="timer-num" id="days">00</span><span class="timer-label">Days</span>
@@ -481,6 +499,20 @@
                 <div class="timer-part"><span class="timer-num" id="seconds">00</span><span
                         class="timer-label">Sec</span></div>
             </div>
+        </div>
+
+        <button class="btn-main" id="open-heart">Open my heart 💌</button>
+        <div id="block-hint" class="block-hint"></div>
+    </section>
+
+    <!-- Section 2: Main Navigation Menu (New) -->
+    <section class="content-section" id="menu-section">
+        <h2>Choose a surprise... ✨</h2>
+        <div class="reasons-grid" style="margin-top: 40px;">
+            <div class="reason-card" onclick="showSection('notes-section')">💌 Notes</div>
+            <div class="reason-card" onclick="showSection('gallery-section')">📸 Gallery</div>
+            <div class="reason-card" onclick="showSection('letter-section')">📜 Letter</div>
+            <div class="reason-card" onclick="showSection('proposal-section')">💘 Surprise</div>
         </div>
     </section>
 
@@ -591,8 +623,40 @@
             'proposal-section'
         ];
 
+        const quirkyMessages = [
+            "Too soon, impatient! 😝",
+            "Nice try, but the magic's not ready yet! ✨",
+            "Hold your horses! 🐎 (Wait for the timer)",
+            "Wait for the big day, love! ❤️",
+            "I see you peeking! 🙈",
+            "Patience is a virtue... supposedly! 🙄",
+            "Still counting down! ⏳",
+            "No early access for you! 🙅‍♀️"
+        ];
+
         // --- Core Interactions ---
         openHeartBtn.addEventListener('click', () => {
+            const targetDate = new Date('February 14, 2026 00:00:00').getTime();
+            const now = new Date().getTime();
+            const blockHint = document.getElementById('block-hint');
+
+            if (now < targetDate) {
+                // Blocked!
+                openHeartBtn.classList.remove('shake');
+                void openHeartBtn.offsetWidth; // Trigger reflow
+                openHeartBtn.classList.add('shake');
+
+                const randomMsg = quirkyMessages[Math.floor(Math.random() * quirkyMessages.length)];
+                blockHint.textContent = randomMsg;
+                blockHint.style.opacity = 1;
+
+                setTimeout(() => {
+                    blockHint.style.opacity = 0;
+                }, 2000);
+
+                return; // Stop here
+            }
+
             showSection('menu-section');
             startCountdown();
             createHeartStorm();
@@ -750,6 +814,7 @@
             document.body.appendChild(egg);
         }, 30000);
 
+        startCountdown();
     </script>
 </body>
 
