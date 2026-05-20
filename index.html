@@ -1,821 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Favorite Person ❤️</title>
-    <style>
-        :root {
-            --pink-soft: #ffcad4;
-            --pink-deep: #f7aef8;
-            --lavender: #b388eb;
-            --peach: #fbd1a2;
-            --white: #ffffff;
-            --text-color: #4a4a4a;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find the Secret 🐾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FBF4E8;
+  --warm-white: #FDFAF4;
+  --gold: #C88A3A;
+  --light-gold: #E4B96A;
+  --soft-gold: #F0D4A0;
+  --dark-brown: #4A2C10;
+  --medium-brown: #7A4E28;
+  --pup-gold: #E0A84A;
+  --pup-dark: #B07A28;
+  --pup-shadow: #A06820;
+}
 
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+body {
+  font-family: 'Caveat', cursive;
+  background-color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, var(--pink-soft), var(--peach), var(--pink-deep));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: var(--text-color);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+/* Subtle background paw pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(212,161,80,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(212,161,80,0.07) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
+.paw-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.paw-bg span {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.05;
+  transform: rotate(var(--r));
+  color: #8B5E3C;
+}
 
-            50% {
-                background-position: 100% 50%;
-            }
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  padding: 44px 20px 10px;
+}
+.header .eyebrow {
+  font-size: 1.15rem;
+  color: var(--medium-brown);
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: var(--dark-brown);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.header .subtitle {
+  font-size: 1.2rem;
+  color: var(--medium-brown);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
 
-        /* --- Audio Controls --- */
-        #music-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 40px 8px;
+  justify-content: center;
+}
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--light-gold), transparent);
+  max-width: 160px;
+}
+.divider-paw { font-size: 1.2rem; }
 
-        .music-btn {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: none;
-            padding: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
+/* ── PUPS GRID ── */
+.pups-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  padding: 20px 10px 40px;
+}
 
-        .music-btn.playing {
-            animation: pulse 2s infinite;
-        }
+.pup-card {
+  background: var(--warm-white);
+  border-radius: 24px;
+  padding: 18px 16px 14px;
+  box-shadow: 0 3px 14px rgba(160,104,32,0.12), 0 1px 4px rgba(160,104,32,0.07);
+  cursor: pointer;
+  transition: transform 0.28s cubic-bezier(.34,1.56,.64,1), box-shadow 0.28s ease;
+  text-align: center;
+  position: relative;
+  user-select: none;
+  border: 1.5px solid rgba(228,185,106,0.25);
+}
+.pup-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(160,104,32,0.22);
+}
+.pup-card:active {
+  transform: scale(0.97);
+}
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
+.pup-name {
+  font-size: 1.2rem;
+  color: var(--medium-brown);
+  margin-top: 8px;
+  font-weight: 600;
+}
+.pup-mood {
+  font-size: 0.85rem;
+  color: var(--pup-dark);
+  opacity: 0.6;
+  margin-top: 2px;
+}
 
-            50% {
-                transform: scale(1.1);
-                box-shadow: 0 0 20px var(--pink-deep);
-            }
+/* Easter egg card — tiny near-invisible sparkle */
+.pup-card.secret .secret-dot {
+  position: absolute;
+  top: 10px; right: 14px;
+  font-size: 0.55rem;
+  opacity: 0.18;
+  filter: blur(0.3px);
+  transition: opacity 0.3s;
+}
+.pup-card.secret:hover .secret-dot {
+  opacity: 0.38;
+}
 
-            100% {
-                transform: scale(1);
-            }
-        }
+/* ── SVG dogs — shared styles ── */
+.dog-svg { width: 100%; height: auto; display: block; }
 
-        /* --- Landing Screen --- */
-        section {
-            width: 100%;
-            max-width: 600px;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            min-height: 100vh;
-            justify-content: center;
-        }
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(74,44,16,0.62);
+  backdrop-filter: blur(10px) saturate(1.3);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.35s ease forwards;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .hero h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            color: #d81b60;
-        }
+.modal-box {
+  background: var(--warm-white);
+  border-radius: 32px;
+  padding: 40px 36px 32px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  animation: popIn 0.45s cubic-bezier(.34,1.56,.64,1) forwards;
+  box-shadow: 0 20px 60px rgba(74,44,16,0.3);
+  border: 1.5px solid rgba(228,185,106,0.3);
+  position: relative;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.7) translateY(30px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
+.found-tag {
+  display: inline-block;
+  background: var(--soft-gold);
+  color: var(--dark-brown);
+  font-size: 0.9rem;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 50px;
+  margin-bottom: 22px;
+  letter-spacing: 0.05em;
+}
 
-        .btn-main {
-            padding: 15px 35px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            border: none;
-            background: var(--white);
-            color: #d81b60;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
+.sketch-frame {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 0 auto 24px;
+  box-shadow:
+    0 0 0 3px var(--warm-white),
+    0 0 0 5px var(--light-gold),
+    0 8px 28px rgba(160,104,32,0.22);
+  position: relative;
+  background: #f5f0e8;
+}
+/* Two-layer color-dodge pencil sketch */
+.sketch-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
-        .btn-main:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(216, 27, 96, 0.2);
-        }
+.modal-poem {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.28rem;
+  color: var(--dark-brown);
+  line-height: 1.75;
+  margin-bottom: 8px;
+}
+.modal-poem .line { display: block; }
+.modal-poem .line-accent {
+  display: block;
+  color: var(--pup-shadow);
+  font-size: 1.1rem;
+}
 
-        /* --- Countdown --- */
-        .countdown-container {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            width: 90%;
-            margin: 40px 0;
-            display: none;
-            /* hidden initially */
-        }
+.modal-sign {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: var(--medium-brown);
+  opacity: 0.55;
+  margin-top: 14px;
+  margin-bottom: 22px;
+}
 
-        .countdown-timer {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
+.close-btn {
+  background: linear-gradient(135deg, var(--light-gold), var(--gold));
+  border: none;
+  padding: 11px 36px;
+  border-radius: 50px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--warm-white);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(200,138,58,0.35);
+}
+.close-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(200,138,58,0.45);
+}
 
-        .timer-part {
-            display: flex;
-            flex-direction: column;
-        }
+.confetti-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 32px;
+}
+.confetti-piece {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 2px;
+  opacity: 0;
+}
 
-        .timer-num {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #d81b60;
-        }
-
-        .timer-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.7;
-        }
-
-        /* --- Sections Hidden by Default --- */
-        .content-section {
-            display: none;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .content-section.visible {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- Carousel --- */
-        .carousel {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            margin: 20px 0;
-        }
-
-        .carousel-item {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-style: italic;
-            font-size: 1.3rem;
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transform: scale(0.9);
-            transition: var(--transition);
-        }
-
-        .carousel-item.active {
-            opacity: 1;
-            transform: scale(1);
-            z-index: 10;
-        }
-
-        /* --- Reasons Section --- */
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .reason-card {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100px;
-        }
-
-        .reason-card:hover {
-            transform: scale(1.05);
-            background: var(--pink-soft);
-        }
-
-        .reason-text {
-            display: none;
-            font-weight: 600;
-        }
-
-        /* --- Proposal --- */
-        .proposal h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            margin-bottom: 40px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            position: relative;
-        }
-
-        #btn-no {
-            background: #eee;
-            color: #666;
-            position: relative;
-        }
-
-        #btn-yes {
-            background: #d81b60;
-            color: white;
-            padding: 15px 45px;
-        }
-
-        /* --- Gallery Section --- */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .photo-card {
-            background: white;
-            padding: 10px;
-            padding-bottom: 25px;
-            box-shadow: var(--shadow);
-            transform: rotate(var(--rotation));
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .photo-card:hover {
-            transform: rotate(0deg) scale(1.1);
-            z-index: 10;
-        }
-
-        .photo-placeholder {
-            width: 100%;
-            aspect-ratio: 1;
-            background: var(--pink-soft);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            border-radius: 4px;
-        }
-
-        .photo-caption {
-            margin-top: 10px;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.1rem;
-        }
-
-        /* --- Letter Section --- */
-        .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            width: 200px;
-            height: 140px;
-            background: #f7aef8;
-            border-radius: 0 0 10px 10px;
-            margin: 50px auto;
-            transition: var(--transition);
-        }
-
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 100px solid transparent;
-            border-right: 100px solid transparent;
-            border-top: 80px solid #f7aef8;
-            transform-origin: top;
-            transition: transform 0.6s ease;
-            z-index: 5;
-        }
-
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-        }
-
-        .letter {
-            position: absolute;
-            bottom: 5px;
-            left: 10px;
-            width: 180px;
-            height: 120px;
-            background: white;
-            padding: 15px;
-            transition: transform 0.6s ease, height 0.6s ease;
-            z-index: 2;
-            overflow: hidden;
-            font-size: 0.8rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .envelope-wrapper.open .letter {
-            transform: translateY(-80px);
-            height: 300px;
-            width: 250px;
-            left: -25px;
-            z-index: 10;
-            overflow-y: auto;
-            font-size: 1rem;
-        }
-
-        .letter-content {
-            font-family: 'Dancing Script', cursive;
-            line-height: 1.5;
-            color: #444;
-        }
-
-        /* --- Global Nav Overrides --- */
-        .nav-btn {
-            margin-top: 30px;
-        }
-
-        /* --- Floating Hearts --- */
-        .heart-particle {
-            position: fixed;
-            pointer-events: none;
-            animation: floatUp 6s linear forwards;
-            z-index: 1;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.8;
-            }
-
-            90% {
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translateY(-10vh) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        /* --- Easter Eggs & Animations --- */
-        .secret-message {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: none;
-            z-index: 2000;
-        }
-    </style>
-    <style>
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-10px);
-            }
-
-            75% {
-                transform: translateX(10px);
-            }
-        }
-
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-
-        .block-hint {
-            color: #d81b60;
-            font-weight: 600;
-            margin-top: 15px;
-            height: 24px;
-            transition: opacity 0.3s ease;
-        }
-    </style>
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 0 20px 50px;
+  color: var(--medium-brown);
+  font-size: 1rem;
+  opacity: 0.45;
+}
+</style>
 </head>
-
 <body>
 
-    <!-- Background Music -->
-    <div id="music-container">
-        <button class="music-btn" id="music-toggle" title="Play Music">🎵</button>
-        <audio id="bg-music" loop>
-            <!-- 
-                INSTRUCTIONS FOR MUSIC:
-                1. Place your music file (e.g., music.mp3) in the same folder as this file.
-                2. Change the src below to your filename: <source src="music.mp3" type="audio/mpeg">
-                Alternatively, paste a direct link to the music sample in the src.
-            -->
-            <source src="夜明けの風.mp3" type="audio/mpeg">
-        </audio>
+<!-- Background paw prints -->
+<div class="paw-bg" id="pawBg"></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="eyebrow">a little something for you 🐾</div>
+    <h1>nine golden babies,<br>one tiny secret</h1>
+    <p class="subtitle">can you find the one that's hiding something special?<br>look closely... it's worth it 🌙</p>
+  </header>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-paw">🐾</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="pups-grid">
+
+    <!-- Pup 1 – Sunny -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#C07A28" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#C07A28" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#E8A84A"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#D49038"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="48" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="78" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 87 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M48 22 Q56 13 60 19 Q64 13 72 22" fill="none" stroke="#C07A28" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- tongue -->
+        <ellipse cx="60" cy="85" rx="7" ry="6" fill="#E07080"/>
+        <path d="M53 85 Q60 92 67 85" fill="#E07080" stroke="none"/>
+      </svg>
+      <div class="pup-name">Sunny</div>
+      <div class="pup-mood">always happy 🌞</div>
     </div>
 
-    <!-- Hidden secret message container -->
-    <div id="secret-popup" class="secret-message">You found a secret hug! 🤗</div>
+    <!-- Pup 2 – Biscuit (sleepy) -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#BF7522" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#BF7522" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#E5A442"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#D08A30"/>
+        <!-- sleepy eyes -->
+        <path d="M 37 50 Q 45 44 53 50" fill="none" stroke="#1E0E04" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M 67 50 Q 75 44 83 50" fill="none" stroke="#1E0E04" stroke-width="3.5" stroke-linecap="round"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 85 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M46 22 Q55 14 60 20 Q65 14 74 22" fill="none" stroke="#BF7522" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- zzz -->
+        <text x="80" y="30" font-size="11" fill="#C07A28" opacity=".5" font-family="sans-serif">z z</text>
+      </svg>
+      <div class="pup-name">Biscuit</div>
+      <div class="pup-mood">sleepy boy 💤</div>
+    </div>
 
-    <!-- Section 1: Landing -->
-    <section class="hero content-section visible" id="landing-section">
-        <h1>Hey love 💖</h1>
-        <p>I made this just for you, because you're special.</p>
+    <!-- Pup 3 – Goldie (bow) -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#C88030" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#C88030" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#EAB04E"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#D6943C"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="48" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="78" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 87 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <!-- bow tie -->
+        <polygon points="50,94 60,99 50,104" fill="#E4B9E0"/>
+        <polygon points="70,94 60,99 70,104" fill="#E4B9E0"/>
+        <circle cx="60" cy="99" r="3" fill="#D496C8"/>
+        <path d="M48 22 Q56 13 60 19 Q64 13 72 22" fill="none" stroke="#C88030" stroke-width="4.5" stroke-linecap="round"/>
+      </svg>
+      <div class="pup-name">Goldie</div>
+      <div class="pup-mood">dressed up 🎀</div>
+    </div>
 
-        <div class="countdown-container" id="timer-box" style="display: block; margin: 20px 0;">
-            <p>Counting every second until our moment ❤️</p>
-            <div class="countdown-timer">
-                <div class="timer-part"><span class="timer-num" id="days">00</span><span class="timer-label">Days</span>
-                </div>
-                <div class="timer-part"><span class="timer-num" id="hours">00</span><span
-                        class="timer-label">Hours</span></div>
-                <div class="timer-part"><span class="timer-num" id="minutes">00</span><span
-                        class="timer-label">Min</span></div>
-                <div class="timer-part"><span class="timer-num" id="seconds">00</span><span
-                        class="timer-label">Sec</span></div>
-            </div>
-        </div>
+    <!-- Pup 4 – Maple -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#BA7020" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#BA7020" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#E3A03E"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#CD8C2E"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="47" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="77" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M47 22 Q55 13 60 19 Q65 13 73 22" fill="none" stroke="#BA7020" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- freckles -->
+        <circle cx="50" cy="72" r="2" fill="#C07820" opacity=".35"/>
+        <circle cx="55" cy="74" r="2" fill="#C07820" opacity=".35"/>
+        <circle cx="65" cy="74" r="2" fill="#C07820" opacity=".35"/>
+        <circle cx="70" cy="72" r="2" fill="#C07820" opacity=".35"/>
+      </svg>
+      <div class="pup-name">Maple</div>
+      <div class="pup-mood">freckle face 🍁</div>
+    </div>
 
-        <button class="btn-main" id="open-heart">Open my heart 💌</button>
-        <div id="block-hint" class="block-hint"></div>
-    </section>
+    <!-- Pup 5 – SECRET (easter egg) -->
+    <div class="pup-card secret" onclick="revealSecret(this)">
+      <span class="secret-dot">✦</span>
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#C88030" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#C88030" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#EAB04E"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#D6943C"/>
+        <!-- special eyes – soft hearts -->
+        <circle cx="45" cy="50" r="8.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="8.5" fill="#1E0E04"/>
+        <!-- heart pupils -->
+        <path d="M42 48 Q45 44 48 48 Q45 52 42 48Z" fill="#D04060" opacity=".75"/>
+        <path d="M72 48 Q75 44 78 48 Q75 52 72 48Z" fill="#D04060" opacity=".75"/>
+        <circle cx="48" cy="46" r="2" fill="white" opacity=".8"/>
+        <circle cx="78" cy="46" r="2" fill="white" opacity=".8"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 88 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M47 22 Q56 13 60 19 Q64 13 73 22" fill="none" stroke="#C88030" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- tiny heart above head -->
+        <path d="M57 10 Q60 6 63 10 Q60 14 57 10Z" fill="#E07090" opacity=".45"/>
+      </svg>
+      <div class="pup-name">...?</div>
+      <div class="pup-mood">looking at you 🤎</div>
+    </div>
 
-    <!-- Section 2: Main Navigation Menu (New) -->
-    <section class="content-section" id="menu-section">
-        <h2>Choose a surprise... ✨</h2>
-        <div class="reasons-grid" style="margin-top: 40px;">
-            <div class="reason-card" onclick="showSection('notes-section')">💌 Notes</div>
-            <div class="reason-card" onclick="showSection('gallery-section')">📸 Gallery</div>
-            <div class="reason-card" onclick="showSection('letter-section')">📜 Letter</div>
-            <div class="reason-card" onclick="showSection('proposal-section')">💘 Surprise</div>
-        </div>
-    </section>
+    <!-- Pup 6 – Honey -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#C07828" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#C07828" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#E8A84A"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#D49038"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="48" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="78" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M46 22 Q55 13 60 19 Q65 14 74 22" fill="none" stroke="#C07828" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- flower on ear -->
+        <circle cx="26" cy="55" r="6" fill="#F8D080" opacity=".6"/>
+        <circle cx="26" cy="55" r="3" fill="#E8A840" opacity=".7"/>
+      </svg>
+      <div class="pup-name">Honey</div>
+      <div class="pup-mood">flower child 🌼</div>
+    </div>
 
-    <!-- Section: Love Notes -->
-    <section class="content-section" id="notes-section">
-        <div class="carousel" id="love-carousel">
-            <div class="carousel-item active">"Distance means nothing when it’s you"</div>
-            <div class="carousel-item">"You’re my favorite person, even from miles away"</div>
-            <div class="carousel-item">"Every notification from you makes my day"</div>
-            <div class="carousel-item">"You are my sun, my moon, and all my stars ✨"</div>
-        </div>
-        <button class="btn-main" id="next-message">Next Note ✨</button>
+    <!-- Pup 7 – Teddy -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#C07020" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#C07020" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#E4A040"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#CF8C2C"/>
+        <!-- chubby cheeks -->
+        <circle cx="36" cy="60" r="11" fill="#E8B060" opacity=".5"/>
+        <circle cx="84" cy="60" r="11" fill="#E8B060" opacity=".5"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="48" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="78" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 87 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M47 22 Q55 14 60 20 Q65 14 73 22" fill="none" stroke="#C07020" stroke-width="4.5" stroke-linecap="round"/>
+      </svg>
+      <div class="pup-name">Teddy</div>
+      <div class="pup-mood">chubby cheeks 🧸</div>
+    </div>
 
-        <div style="margin-top: 60px;">
-            <h3>Why you mean everything to me</h3>
-            <div class="reasons-grid">
-                <div class="reason-card"><span class="emoji">🌟</span><span class="reason-text">Your kindness</span>
-                </div>
-                <div class="reason-card"><span class="emoji">🦋</span><span class="reason-text">Your smile</span></div>
-                <div class="reason-card"><span class="emoji">💫</span><span class="reason-text">Your laugh</span></div>
-                <div class="reason-card"><span class="emoji">🌈</span><span class="reason-text">Our future</span></div>
-            </div>
-        </div>
-        <button class="btn-main nav-btn" onclick="showSection('menu-section')">Back to Menu 🔙</button>
-    </section>
+    <!-- Pup 8 – Caramel -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#B86C18" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#B86C18" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#E09838"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#C8842A"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="48" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="78" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <!-- big smile -->
+        <path d="M50 77 Q60 90 70 77" fill="none" stroke="#1E0E04" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M46 22 Q55 14 60 20 Q65 14 74 22" fill="none" stroke="#B86C18" stroke-width="4.5" stroke-linecap="round"/>
+        <ellipse cx="60" cy="84" rx="7" ry="5.5" fill="#E06070"/>
+      </svg>
+      <div class="pup-name">Caramel</div>
+      <div class="pup-mood">big smiles 🍮</div>
+    </div>
 
-    <!-- Section: Gallery -->
-    <section class="content-section" id="gallery-section">
-        <h2>Our Moments 📸</h2>
-        <div class="gallery-grid">
-            <div class="photo-card" style="--rotation: -5deg">
-                <div class="photo-placeholder">🌸</div>
-                <div class="photo-caption">That First Day</div>
-            </div>
-            <div class="photo-card" style="--rotation: 3deg">
-                <div class="photo-placeholder">🌙</div>
-                <div class="photo-caption">Midnight Talks</div>
-            </div>
-            <div class="photo-card" style="--rotation: -2deg">
-                <div class="photo-placeholder">🍦</div>
-                <div class="photo-caption">Ice Cream Dates</div>
-            </div>
-            <div class="photo-card" style="--rotation: 4deg">
-                <div class="photo-placeholder">✈️</div>
-                <div class="photo-caption">Soon...</div>
-            </div>
-        </div>
-        <button class="btn-main nav-btn" onclick="showSection('menu-section')">Back to Menu 🔙</button>
-    </section>
+    <!-- Pup 9 – Coco -->
+    <div class="pup-card" onclick="wiggle(this)">
+      <svg class="dog-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="26" cy="72" rx="17" ry="28" fill="#9A5A14" transform="rotate(-12,26,72)"/>
+        <ellipse cx="94" cy="72" rx="17" ry="28" fill="#9A5A14" transform="rotate(12,94,72)"/>
+        <circle cx="60" cy="58" r="38" fill="#D08A38"/>
+        <ellipse cx="60" cy="76" rx="21" ry="16" fill="#B87428"/>
+        <circle cx="45" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="75" cy="50" r="7.5" fill="#1E0E04"/>
+        <circle cx="48" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="78" cy="47" r="2.5" fill="white" opacity=".9"/>
+        <ellipse cx="60" cy="70" rx="8" ry="5.5" fill="#1E0E04"/>
+        <path d="M52 78 Q60 86 68 78" fill="none" stroke="#1E0E04" stroke-width="2" stroke-linecap="round"/>
+        <path d="M46 22 Q55 14 60 20 Q65 14 74 22" fill="none" stroke="#9A5A14" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- star on forehead -->
+        <path d="M60 28 L61.5 32.5 L66 32.5 L62.5 35.5 L63.8 40 L60 37.5 L56.2 40 L57.5 35.5 L54 32.5 L58.5 32.5 Z" fill="#E8B060" opacity=".45"/>
+      </svg>
+      <div class="pup-name">Coco</div>
+      <div class="pup-mood">star of the pack 🌰</div>
+    </div>
 
-    <!-- Section: Letter -->
-    <section class="content-section" id="letter-section">
-        <h2>A Letter For You ✉️</h2>
-        <div class="envelope-wrapper" id="envelope">
-            <div class="envelope-flap"></div>
-            <div class="letter">
-                <div class="letter-content">
-                    My Dearest,<br><br>
-                    I was thinking about how much you mean to me. Even though we are apart, I feel your presence every
-                    single day. <br><br>
-                    This distance is just a temporary challenge for a permanent love. Thank you for being my rock and my
-                    best friend. <br><br>
-                    I can't wait to hold you again. <br><br>
-                    Forever Yours, <br>
-                    Me ❤️
-                </div>
-            </div>
-        </div>
-        <p style="margin-top: 20px; opacity: 0.7;">(Tap the envelope to open)</p>
-        <button class="btn-main nav-btn" onclick="showSection('menu-section')" style="margin-top: 100px;">Back to Menu
-            �</button>
-    </section>
+  </div>
 
-    <!-- Section: Proposal -->
-    <section class="content-section proposal" id="proposal-section">
-        <h2>Will you be my Valentine? 💖</h2>
-        <div class="btn-group">
-            <button class="btn-main" id="btn-yes">Yes 💕</button>
-            <button class="btn-main" id="btn-no">No 😝</button>
-        </div>
-        <div id="final-message" style="display:none; margin-top: 40px;">
-            <p style="font-size: 1.5rem; font-weight: 600;">I knew you'd say yes! You've made me the happiest person. I
-                can't wait to see you soon. ❤️✨</p>
-            <button class="btn-main nav-btn" onclick="showSection('menu-section')">Back to Menu 🔙</button>
-        </div>
-    </section>
+  <p class="footer">🐾 made with golden warmth, just for you 🐾</p>
+</div>
 
-    <script>
-        // --- State ---
-        let currentNote = 0;
-        let isMusicPlaying = false;
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="confetti-burst" id="confetti"></div>
+    <div class="found-tag">✦ you found it ✦</div>
+    <div class="sketch-frame">
+      <img id="secretBase" src="" alt="you">
+    </div>
+    <p class="modal-poem">
+      <span class="line">don't know if this brightens your day or mood,</span>
+      <span class="line">but those eyes —</span>
+      <span class="line">I love your puppy eyes. 🐾</span>
+      <span class="line"> </span>
+      <span class="line">keep smiling and spreading happiness.</span>
+      <span class="line">know that, at least to someone,</span>
+      <span class="line">those eyes are enough</span>
+      <span class="line-accent">to brighten their whole day. 🌙</span>
+      <span class="line"> </span>
+      <span class="line">lives rent-free in my heart</span>
+      <span class="line-accent">and mind hehe 🤎</span>
+    </p>
+    <p class="modal-sign">— just a little truth, hidden among the pups</p>
+    <button class="close-btn" onclick="closeModal()">close 🐾</button>
+  </div>
+</div>
 
-        // --- Elements ---
-        const openHeartBtn = document.getElementById('open-heart');
-        const nextMessageBtn = document.getElementById('next-message');
-        const musicBtn = document.getElementById('music-toggle');
-        const bgMusic = document.getElementById('bg-music');
-        const btnNo = document.getElementById('btn-no');
-        const btnYes = document.getElementById('btn-yes');
-        const envelope = document.getElementById('envelope');
+<script>
+// Embed the portrait (base64 set by script injection below)
+const IMG_SRC = "data:image/jpeg;base64,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";
+document.getElementById('secretBase').src = IMG_SRC;
 
-        const sections = [
-            'landing-section',
-            'menu-section',
-            'notes-section',
-            'gallery-section',
-            'letter-section',
-            'proposal-section'
-        ];
+// Scatter background paw prints
+(function() {
+  const pawBg = document.getElementById('pawBg');
+  const paws = ['🐾','🐾','🐾','🐾','🐾'];
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement('span');
+    s.textContent = paws[i % paws.length];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top  = Math.random() * 100 + 'vh';
+    s.style.setProperty('--r', (Math.random() * 60 - 30) + 'deg');
+    s.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    pawBg.appendChild(s);
+  }
+})();
 
-        const quirkyMessages = [
-            "Too soon, impatient! 😝",
-            "Nice try, but the magic's not ready yet! ✨",
-            "Hold your horses! 🐎 (Wait for the timer)",
-            "Wait for the big day, love! ❤️",
-            "I see you peeking! 🙈",
-            "Patience is a virtue... supposedly! 🙄",
-            "Still counting down! ⏳",
-            "No early access for you! 🙅‍♀️"
-        ];
+// Wiggle non-secret pups on click
+function wiggle(card) {
+  card.style.transition = 'transform 0.1s ease';
+  card.style.transform = 'rotate(-4deg) scale(1.05)';
+  setTimeout(() => {
+    card.style.transform = 'rotate(3deg) scale(1.05)';
+    setTimeout(() => {
+      card.style.transform = '';
+      card.style.transition = '';
+    }, 100);
+  }, 100);
+}
 
-        // --- Core Interactions ---
-        openHeartBtn.addEventListener('click', () => {
-            const targetDate = new Date('February 14, 2026 00:00:00').getTime();
-            const now = new Date().getTime();
-            const blockHint = document.getElementById('block-hint');
+// Reveal modal
+function revealSecret(card) {
+  card.style.animation = 'popIn 0.4s cubic-bezier(.34,1.56,.64,1)';
+  setTimeout(() => {
+    document.getElementById('modal').classList.add('show');
+    spawnConfetti();
+  }, 200);
+}
 
-            if (now < targetDate) {
-                // Blocked!
-                openHeartBtn.classList.remove('shake');
-                void openHeartBtn.offsetWidth; // Trigger reflow
-                openHeartBtn.classList.add('shake');
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('show');
+  }
+}
 
-                const randomMsg = quirkyMessages[Math.floor(Math.random() * quirkyMessages.length)];
-                blockHint.textContent = randomMsg;
-                blockHint.style.opacity = 1;
+// Tiny confetti burst
+function spawnConfetti() {
+  const container = document.getElementById('confetti');
+  container.innerHTML = '';
+  const colors = ['#E8B96C','#E4B0A0','#C8D4A0','#B0C8E0','#D4A8E0','#F0D498'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = `
+      left: ${20 + Math.random() * 60}%;
+      top: ${30 + Math.random() * 30}%;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      transform: rotate(${Math.random() * 360}deg);
+      animation: confettiFall ${0.6 + Math.random() * 0.8}s ease-out ${Math.random() * 0.3}s forwards;
+    `;
+    container.appendChild(p);
+  }
+}
+</script>
 
-                setTimeout(() => {
-                    blockHint.style.opacity = 0;
-                }, 2000);
-
-                return; // Stop here
-            }
-
-            showSection('menu-section');
-            startCountdown();
-            createHeartStorm();
-        });
-
-        nextMessageBtn.addEventListener('click', () => {
-            const items = document.querySelectorAll('.carousel-item');
-            items[currentNote].classList.remove('active');
-            currentNote = (currentNote + 1) % items.length;
-            items[currentNote].classList.add('active');
-        });
-
-        // --- Letter Logic ---
-        envelope.addEventListener('click', () => {
-            envelope.classList.toggle('open');
-            if (envelope.classList.contains('open')) createHeartStorm(10);
-        });
-
-        // --- Music ---
-        musicBtn.addEventListener('click', () => {
-            if (isMusicPlaying) {
-                bgMusic.pause();
-                musicBtn.textContent = '🎵';
-                musicBtn.classList.remove('playing');
-            } else {
-                bgMusic.play().catch(e => console.log("Autoplay blocked"));
-                musicBtn.textContent = '⏸️';
-                musicBtn.classList.add('playing');
-            }
-            isMusicPlaying = !isMusicPlaying;
-        });
-
-        // --- Reasons reveal ---
-        document.querySelectorAll('.reason-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const emoji = card.querySelector('.emoji');
-                const text = card.querySelector('.reason-text');
-                if (emoji && text) {
-                    emoji.style.display = 'none';
-                    text.style.display = 'block';
-                    card.style.background = '#fff';
-                    card.style.cursor = 'default';
-                }
-            });
-        });
-
-        // --- Proposal Logic ---
-        btnNo.addEventListener('mouseover', moveButton);
-        btnNo.addEventListener('click', moveButton);
-
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 40);
-            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 40);
-            btnNo.style.position = 'fixed';
-            btnNo.style.left = x + 'px';
-            btnNo.style.top = y + 'px';
-        }
-
-        btnYes.addEventListener('click', () => {
-            document.getElementById('final-message').style.display = 'block';
-            btnNo.style.display = 'none';
-            btnYes.style.display = 'none';
-            document.querySelector('.proposal h2').textContent = "YAYYY! 🎉💖";
-            document.body.style.background = "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)";
-            createHeartStorm(100);
-        });
-
-        // --- Navigation ---
-        function showSection(id) {
-            sections.forEach(sId => {
-                const el = document.getElementById(sId);
-                el.classList.remove('visible');
-                setTimeout(() => el.style.display = 'none', 500);
-            });
-
-            setTimeout(() => {
-                const activeEl = document.getElementById(id);
-                activeEl.style.display = 'flex';
-                setTimeout(() => activeEl.classList.add('visible'), 50);
-            }, 600);
-        }
-
-        // --- Countdown ---
-        let countdownStarted = false;
-        function startCountdown() {
-            if (countdownStarted) return;
-            countdownStarted = true;
-            const targetDate = new Date('February 14, 2026 00:00:00').getTime();
-
-            setInterval(() => {
-                const now = new Date().getTime();
-                const diff = targetDate - now;
-
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-                const dEl = document.getElementById('days');
-                const hEl = document.getElementById('hours');
-                const mEl = document.getElementById('minutes');
-                const sEl = document.getElementById('seconds');
-
-                if (dEl) dEl.textContent = d.toString().padStart(2, '0');
-                if (hEl) hEl.textContent = h.toString().padStart(2, '0');
-                if (mEl) mEl.textContent = m.toString().padStart(2, '0');
-                if (sEl) sEl.textContent = s.toString().padStart(2, '0');
-            }, 1000);
-        }
-
-        // --- Floating Hearts ---
-        function createHeart() {
-            const emojis = ['💖', '💕', '💗', '❤️', '🌸', '✨'];
-            const heart = document.createElement('div');
-            heart.className = 'heart-particle';
-            heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
-        }
-
-        function createHeartStorm(count = 20) {
-            for (let i = 0; i < count; i++) {
-                setTimeout(createHeart, i * 100);
-            }
-        }
-
-        setInterval(createHeart, 800);
-
-        // --- Easter Eggs ---
-        document.querySelector('.hero h1').addEventListener('dblclick', () => {
-            const popup = document.getElementById('secret-popup');
-            popup.style.display = 'block';
-            setTimeout(() => popup.style.display = 'none', 3000);
-        });
-
-        let keys = "";
-        window.addEventListener('keydown', (e) => {
-            keys += e.key.toUpperCase();
-            if (keys.includes("LOVE")) {
-                document.body.style.filter = "hue-rotate(45deg)";
-                setTimeout(() => document.body.style.filter = "none", 2000);
-                createHeartStorm(50);
-                keys = "";
-            }
-            if (keys.length > 10) keys = keys.substring(1);
-        });
-
-        setTimeout(() => {
-            const egg = document.createElement('div');
-            egg.innerHTML = "Psst... you've been on my mind for years, but on this site for 30 seconds. I love you! ✨";
-            egg.style.cssText = "position:fixed; bottom: 10px; font-size: 0.7rem; opacity: 0.5; width: 100%; text-align:center; z-index:100;";
-            document.body.appendChild(egg);
-        }, 30000);
-
-        startCountdown();
-    </script>
+<style>
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateY(80px) rotate(360deg) scale(0.5); }
+}
+</style>
 </body>
-
 </html>
